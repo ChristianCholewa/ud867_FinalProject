@@ -34,6 +34,8 @@ dependencies {
     implementation ('com.google.http-client:google-http-client-android:1.23.0') {
         exclude group: 'com.google.guava'
     }
+
+    implementation project(':java_joke_library')
 }
 
 appengine {

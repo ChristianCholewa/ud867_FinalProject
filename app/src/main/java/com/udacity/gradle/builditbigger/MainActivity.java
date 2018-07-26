@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.cholewa.activity_library.ActivityLibrary;
-import com.cholewa.javajoketellinglibrary.JavaJokeTellingLibraryClass;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
@@ -24,6 +24,8 @@ import static com.cholewa.activity_library.ActivityLibrary.BUNDLE_JOKE;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        JavaJokeTellingLibraryClass javaJokeTellingLibraryClass = new JavaJokeTellingLibraryClass();
-
-        String joke = javaJokeTellingLibraryClass.GetNextJoke();
-
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, joke));
+        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Test string"));
     }
 
     class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
@@ -89,7 +87,10 @@ public class MainActivity extends AppCompatActivity {
             String name = params[0].second;
 
             try {
-                return myApiService.sayHi(name).execute().getData();
+                String test = myApiService.sayHi(name).execute().getData();
+                Log.d(LOG_TAG, test);
+
+                return myApiService.tellJoke().execute().getData();
             } catch (IOException e) {
                 return e.getMessage();
             }
