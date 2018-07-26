@@ -1,13 +1,10 @@
 package com.cholewa.activity_library;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.cholewa.javajoketellinglibrary.JavaJokeTellingLibraryClass;
 
 public class ActivityLibrary extends AppCompatActivity {
 
