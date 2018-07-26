@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java_joke_library/java_joke_library.iml" filepath="$PROJECT_DIR$/java_joke_library/java_joke_library.iml" />
       <module fileurl="file://$PROJECT_DIR$/ud867_FinalProject.iml" filepath="$PROJECT_DIR$/ud867_FinalProject.iml" />
     </modules>
   </component>
