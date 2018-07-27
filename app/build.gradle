@@ -32,6 +32,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions("default")
+
+    productFlavors {
+        free {
+            dimension = "default"
+            applicationId = "com.udacity.gradle.builditbigger.free"
+        }
+
+        paid {
+            dimension = "default"
+            applicationId = "com.udacity.gradle.builditbigger.paid"
+        }
+    }
 }
 
 dependencies {
@@ -41,7 +55,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     endpointsServer project(path: ':backend', configuration: 'endpoints')
     implementation 'com.android.support:appcompat-v7:26.1.0'
+
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
+
     implementation ('com.google.api-client:google-api-client:1.23.0') {
         exclude group: 'com.google.guava'
     }
