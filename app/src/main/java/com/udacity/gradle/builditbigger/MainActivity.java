@@ -43,17 +43,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        //test mode ?
-        if(view != null){
-            Log.d(LOG_TAG, "tellJoke: user mode");
-            new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Test string"));
-        } else {
-            Log.d(LOG_TAG, "tellJoke: test mode");
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    new EndpointsAsyncTask().execute(new Pair<Context, String>(null, "Test string"));
-                }
-            });
-        }
+        new EndpointsAsyncTask(null).execute(new Pair<Context, String>(MainActivity.this, "Test string"));
     }
 }
