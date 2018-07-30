@@ -24,17 +24,6 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
     private MyApi myApiService = null;
     private Context context;
 
-    private Object syncObject;
-    private String testResult;
-
-    public EndpointsAsyncTask(Object syncObject){
-        this.syncObject = syncObject;
-    }
-
-    public String getTestResult(){
-        return testResult;
-    }
-
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
         if(myApiService == null) {  // Only do this once
@@ -63,8 +52,8 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
             String result = myApiService.sayHi(name).execute().getData();
             Log.d(LOG_TAG, result);
 
-            testResult = null; // reset test result for androidTest
             return myApiService.tellJoke().execute().getData();
+
         } catch (IOException e) {
             return e.getMessage();
         }
@@ -72,20 +61,8 @@ class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> 
 
     @Override
     protected void onPostExecute(String result) {
-        //testmode ?
-        if(context != null) {
-            Log.d(LOG_TAG, "onPostExecute: user mode");
-            Intent intent = new Intent(context, ActivityLibrary.class);
-            intent.putExtra(BUNDLE_JOKE, result);
-            context.startActivity(intent);
-        } else if (syncObject != null){
-            Log.d(LOG_TAG, "onPostExecute: test mode");
-
-            // set androidTest result and notify ExampleInstrumentedTest
-            testResult = result;
-            synchronized (syncObject){
-                syncObject.notify();
-            }
-        }
+        Intent intent = new Intent(context, ActivityLibrary.class);
+        intent.putExtra(BUNDLE_JOKE, result);
+        context.startActivity(intent);
     }
 }

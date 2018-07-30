@@ -1,18 +1,17 @@
 package com.udacity.gradle.builditbigger;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 import android.util.Pair;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertEquals;
+import java.util.concurrent.CountDownLatch;
+
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -22,38 +21,35 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
 
-    private final static String LOG_TAG = ExampleInstrumentedTest.class.getSimpleName();
-
-    @Test
+   @Test
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.udacity.gradle.builditbigger", appContext.getPackageName());
+        assertTrue(appContext.getPackageName().equals("com.udacity.gradle.builditbigger.free") ||
+                appContext.getPackageName().equals("com.udacity.gradle.builditbigger.paid"));
     }
+
+    Context context;
 
     @Test
-    public void pingServer() {
-
-        final Object syncObject = new Object();
-
-        EndpointsAsyncTask endpointsAsyncTask = new EndpointsAsyncTask(syncObject);
-        endpointsAsyncTask.execute(new Pair<Context, String>(null, "Test string"));
-
-        Log.d(LOG_TAG, "waiting for server... 10 seconds timeout");
-
-        synchronized (syncObject){
-            try {
-                syncObject.wait(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public void testAsyncTask() throws InterruptedException {
+        assertTrue(true);
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        context = InstrumentationRegistry.getContext();
+        EndpointsAsyncTask testTask = new EndpointsAsyncTask() {
+            @Override
+            protected void onPostExecute(String result) {
+                assertNotNull(result);
+                if (result != null){
+                    assertTrue(result.length() > 0);
+                }
+                countDownLatch.countDown();
             }
-        }
-
-        String result = endpointsAsyncTask.getTestResult();
-
-        Log.d(LOG_TAG, String.format("waiting done. Result: %s", result == null ? "<null>" : result));
-
-        assertNotNull(result);
+        };
+        testTask.execute(new Pair<Context, String>(context, "Test string"));
+        countDownLatch.await();
     }
 }
+
+

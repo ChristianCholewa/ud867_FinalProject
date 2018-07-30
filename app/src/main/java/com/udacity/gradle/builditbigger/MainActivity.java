@@ -10,8 +10,6 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = MainActivity.class.getSimpleName();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +39,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        new EndpointsAsyncTask(null).execute(new Pair<Context, String>(MainActivity.this, "Test string"));
+        new EndpointsAsyncTask().execute(new Pair<Context, String>(MainActivity.this, "Test string"));
     }
 }
